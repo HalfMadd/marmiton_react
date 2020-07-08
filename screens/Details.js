@@ -121,7 +121,7 @@ class Details extends Component{
 
     }
 
-    deleteComment($id_commentaire){
+    deleteComment(id_commentaire){
         fetch('127.0.0.1:8000/api/delete_comment.php', {
             method: 'POST',
             headers: {
@@ -129,7 +129,7 @@ class Details extends Component{
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                id_commentaire: $id_commentaire
+                id_commentaire: id_commentaire
             })
             
             })
@@ -177,7 +177,8 @@ class Details extends Component{
                     renderRow={ (rowData) => 
                     <Text style={styles.rowViewContainer}> {rowData.texte_commentaire} </Text>,
                     <Text style={styles.rowViewContainer}> Par {rowData.pseudo} </Text>,
-                    <TouchableOpacity activeOpacity = { 0.8 } style = { styles.BtnDelete } onPress = { this.deleteComment }>
+                    <TouchableOpacity activeOpacity = { 0.8 } style = { styles.BtnDelete } 
+                    onPress = { this.deleteComment.bind(this, rowData.id_commentaire) }>
                         <Text style = { styles.btnText }>Supprimer ce commentaire</Text>
                     </TouchableOpacity>
                     }
