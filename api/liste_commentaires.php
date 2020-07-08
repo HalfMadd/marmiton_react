@@ -4,8 +4,11 @@ include 'config.php';
 $json = file_get_contents('php://input');
 
 $obj = json_decode($json,true);
+
+$id_recette = $obj['id_recette'];
  
-$query = "SELECT * from recettes";
+$query = "SELECT * from commentaires where recette_id = '$recette_id'
+INNER JOIN users ON users.id_user = commentaire.user_id";
  
 $find = mysqli_fetch_array(mysqli_query($connect,$query));
 
@@ -17,7 +20,7 @@ if ($result->num_rows > 0) {
         $json = json_encode($item);
     }
 }else{
-    echo "Aucune recette";
+    echo "Pas de commentaires";
 }
 
 echo $json;

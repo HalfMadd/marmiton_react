@@ -32,6 +32,8 @@ class Splash extends Component{
 
         let {fadeIn} = this.state;
 
+        let {navigation} = this.props;
+
         return (
             <View style={styles.container}>
                 <Animated.Image

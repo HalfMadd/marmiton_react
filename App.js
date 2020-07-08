@@ -19,6 +19,8 @@ import Details from "./screens/Details";
 import Search from "./screens/Search";
 import Login from "./screens/Login";
 import Inscription from "./screens/Inscription";
+import Mes_recettes from "./screens/Mes_recettes";
+import Ajout_recette from "./screens/Ajout_recette";
 
 const persistConfig = {
     key: 'root',
@@ -38,7 +40,7 @@ const BottomNavigator = createBottomTabNavigator(
             navigationOptions: () => ({
                 tabBarIcon: ({ tintColor }) => {
                     <Icon
-                        name={'list'}
+                        name={'home'}
                         size={24}
                         color={tintColor}
                     />
@@ -58,6 +60,32 @@ const BottomNavigator = createBottomTabNavigator(
             })
         },
 
+        Mes_recettes: {
+            screen: Mes_recettes,
+            navigationOptions: () => ({
+                tabBarIcon: ({ tintColor }) => {
+                    <Icon
+                        name={'list'}
+                        size={24}
+                        color={tintColor}
+                    />
+                } 
+            }) 
+        },
+
+        Ajout_recette: {
+            screen: Ajout_recette,
+            navigationOptions: () => ({
+                tabBarIcon: ({ tintColor }) => {
+                    <Icon
+                        name={'add-to-list'}
+                        size={24}
+                        color={tintColor}
+                    />
+                } 
+            })           
+        }
+
     },
     {
         tabBarOptions: {
@@ -75,7 +103,9 @@ const AppNavigator = createStackNavigator(
         Home: {screen: BottomNavigator, navigationOptions: {headerShown: false}},
         Details: {screen: Details, navigationOptions: {headerShown: false}},
         Home: {screen: Home, navigationOptions: {headerShown: false}},
-        Inscription: {screen: Inscription, navigationOptions: {headerShown: false}}
+        Inscription: {screen: Inscription, navigationOptions: {headerShown: false}},
+        Mes_recettes: {screen: Inscription, navigationOptions: {headerShown: false}},
+        Ajout_recette: {screen: Ajout_recette, navigationOptions: {headerShown: false}},
     },
     {
         initialRouteName: 'Splash'

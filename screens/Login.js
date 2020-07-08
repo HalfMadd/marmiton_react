@@ -22,7 +22,7 @@ class Login extends Component{
  
         const { pseudo }  = this.state ;
 
-        fetch('./api/login.php', {
+        fetch('127.0.0.1:8000/api/login.php', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -42,11 +42,18 @@ class Login extends Component{
             }).catch((error) => {
                 console.error(error);
             });
-        }
+    }
+
+    goToInscription = () => {
+        this.props.navigation.navigate('Inscription');
+    }
 
 
 
     render() {
+
+        let {navigation} = this.props;
+        
         return (
             <View style={styles.MainContainer}>
  
@@ -58,6 +65,10 @@ class Login extends Component{
                 style={styles.TextInputStyleClass}
                 />
                 <Button title="Valider" onPress={this.LoginFunction} color="#2196F3" />
+
+                <TouchableOpacity activeOpacity = { 0.8 } style = { styles.Btn } onPress = { this.goToInscription }>
+                    <Text style = { styles.btnText }>S'inscrire</Text>
+                </TouchableOpacity>
         
             </View>
         )
@@ -90,4 +101,18 @@ const styles = StyleSheet.create({
         textAlign: 'center', 
         marginBottom: 15
     },
+
+    Btn:{
+        backgroundColor: 'rgba(0,0,255,0.6)',
+        alignSelf: 'stretch',
+        padding: 10,
+        marginTop: 10,
+        marginBottom: 25
+    },
+
+    btnText:{
+        textAlign: 'center',
+        color: 'white',
+        fontSize: 16
+    }
 })

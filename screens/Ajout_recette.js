@@ -5,25 +5,24 @@ import {
     StyleSheet, 
     TextInput, 
     TouchableOpacity, 
-    Platform ,
-    Alert
+    Alert,
 } from 'react-native';
 
-class Inscription extends Component{
+class Ajout_recette extends Component{
 
     constructor(props)
     {
         super(props);
         this.state = {
-            pseudo: '', 
-            role_id: '1', 
-            disabled: false 
+            nom_recette: '', 
+            description_recette: '', 
+            user_id: '1'
         }
     }
 
     insertData = () =>
     {
-        fetch('127.0.0.1:8000/api/inscription.php',
+        fetch('127.0.0.1:8000/api/insert_recette.php',
         {
             method: 'POST',
             headers: 
@@ -31,37 +30,38 @@ class Inscription extends Component{
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                pseudo: this.state.pseudo,
-                //choisir rôle ?
-                role_id: this.state.role_id
+            body: JSON.stringify(
+            {
+                nom_recette: this.state.nom_recette,
+                description_recette: this.state.description_recette,
+                user_id: this.state.user_id
             })
 
-        })
-        .then((response) => response.json())
-            .then((responseJson) => {
-                if(responseJson === 'Success'){
-                    this.props.navigation.navigate('Login');
-                }else{
-                    Alert.alert(responseJson);
-                }
-            }).catch((error) => {
-                console.error(error);
-            });
+        }).then((response) => response.json()).then((responseJson) =>{
+            if(responseJson === 'Success'){
+                this.props.navigation.navigate('Home');
+            }else{
+                Alert.alert(responseJson);
+            }
+        }).catch((error) =>
+        {
+            console.error(error);
+        });
     }
 
     render(){
 
         let {navigation} = this.props;
-        
+
         return(
             <View style = { styles.container }>
-                <TextInput placeholder = "Pseudo" style = { styles.textInput } onChangeText = {(text) => this.setState({ first_name: text })}/>
+                <TextInput placeholder = "Nom de votre recette" style = { styles.textInput } onChangeText = {(text) => this.setState({ nom_recette: text })}/>
+                <TextInput placeholder = "Description" style = { styles.textInput } onChangeText = {(text) => this.setState({ description_recette: text })}/>
 
                 {/* <TextInput style = { styles.textInputHidden } /> */}
 
                 <TouchableOpacity activeOpacity = { 0.8 } style = { styles.Btn } onPress = { this.insertData }>
-                    <Text style = { styles.btnText }>Inscription</Text>
+                    <Text style = { styles.btnText }>Insert</Text>
                 </TouchableOpacity>
                 
             </View>
@@ -77,7 +77,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#eee',
         paddingHorizontal: 25,
-        paddingTop: (Platform.OS == 'ios') ? 20 : 0
     },
 
     textInput:{
@@ -109,4 +108,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Inscription;
+export default Ajout_recette;

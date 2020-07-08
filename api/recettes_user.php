@@ -4,8 +4,10 @@ include 'config.php';
 $json = file_get_contents('php://input');
 
 $obj = json_decode($json,true);
+
+$user_id = $obj['user_id'];
  
-$query = "SELECT * from recettes";
+$query = "SELECT * from recettes WHERE user_id = '$user_id'";
  
 $find = mysqli_fetch_array(mysqli_query($connect,$query));
 

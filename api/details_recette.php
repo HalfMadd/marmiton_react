@@ -1,6 +1,6 @@
 <?php
  
- include 'config.php';
+include 'config.php';
   
 $json = file_get_contents('php://input');
 

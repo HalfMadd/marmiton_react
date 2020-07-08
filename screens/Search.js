@@ -5,48 +5,74 @@ import {
     StyleSheet,
     TextInput
 } from 'react-native';
-import EventsService from '../services/events.service';
 import { FlatList } from 'react-native-gesture-handler';
-import EventBox from '../components/EventBox';
 import search from './../assets/search.png';
 
 class Search extends Component{
 
     constructor(props){
         super(props);
-        this.state = {
-            events: [],
-        }
+        this.state = { 
+            text: '' ,
+            dataSource: ''
+        };
+        this.recettesholder = [];
     }
 
-    async searchEvent(text){
-        if(text.length >2){
-            let events = await EventsService.getEventsByName(20, text);
-            this.setState({events});
-        }else{
-            this.setState({ events: [] })
-        }
-        
+    componentDidMount() {
+        return fetch('127.0.0.1:8000/api/liste_recettes.php')
+        .then(response => response.json())
+            .then(responseJson => {
+                this.setState({
+                    dataSource: responseJson
+                },
+                () => {
+                    this.recettesholder = responseJson;
+                }
+                );
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
+    SearchFilterFunction(text) {
+        const newData = this.recettesholder.filter(function(item) {
+
+            const itemData = item.nom_recette ? item.nom_recette.toUpperCase() : ''.toUpperCase();
+            const textData = text.toUpperCase();
+            return itemData.indexOf(textData) > -1;
+        });
+        this.setState({
+            dataSource: newData,
+            text: text,
+        });
+    }
+
+    openDetails(id_recette) {
+        this.props.navigation.navigate('Details', { FlatListClickItemHolder: id_recette });
     }
 
     render() {
 
-        let {events} = this.state;
+        let {navigation} = this.props;
+
         return (
             <View style={styles.container}>
-                <View stule={styles.header}>
+                <View style={styles.header}>
                     <Image source={search} style={styles.headerImage} />
                     <TextInput style={styles.inputSearch} 
-                    placeholder={"Recherchez évènement"} 
-                    onChangeText={(e) => this.searchEvent(e)}
+                    placeholder={"Cherchez une recette"} 
+                    onChangeText={text => this.SearchFilterFunction(text)}
                     />
                 </View>
 
                 <FlatList 
-                data={events} 
+                data={this.state.dataSource} 
                 backgroundColor={'#FFF'} 
-                keyExtractor={item => item.fields.id} 
-                renderItem={ ({item}) => <EventBox data={item.fields} navigation={navigation} />}
+                renderRow={(rowData) =>
+                <Text style={styles.textStyle} onPress={this.openDetails.bind(this, rowData.id_recette)} >
+                    {rowData.nom_recette}</Text>}
                 />
             </View>
         )
@@ -77,8 +103,9 @@ const styles = StyleSheet.create({
         height: 25
     },
 
-    inputSearch: {
-
-    },
+    textStyle: {
+        padding: 10,
+        borderBottomWidth: 2,
+      },
     
 })
