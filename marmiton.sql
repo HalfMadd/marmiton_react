@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mer. 08 juil. 2020 à 00:34
+-- Généré le : mer. 08 juil. 2020 à 21:14
 -- Version du serveur :  10.4.11-MariaDB
 -- Version de PHP : 7.4.1
 
@@ -80,6 +80,13 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- Déchargement des données de la table `users`
+--
+
+INSERT INTO `users` (`id_user`, `pseudo`, `role_id`) VALUES
+(1, 'admin', 2);
+
+--
 -- Index pour les tables déchargées
 --
 
@@ -133,7 +140,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
