@@ -19,7 +19,7 @@ class Mes_recettes extends Component{
 
     componentDidMount() {
      
-        return fetch('127.0.0.1:8000/api/recettes_user.php', {
+        return fetch('127.0.0.1:80/api/recettes_user.php', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -46,8 +46,12 @@ class Mes_recettes extends Component{
         this.props.navigation.navigate('Details', { FlatListClickItemHolder: id_recette });
     }
 
+    goToModifRecette(id_recette) {
+        this.props.navigation.navigate('Update_recette', { FlatListClickItemHolder: id_recette });
+    }
+
     deleteRecette = () => {
-        fetch('127.0.0.1:8000/api/delete_recette.php', {
+        fetch('127.0.0.1:80/api/delete_recette.php', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -83,6 +87,8 @@ class Mes_recettes extends Component{
                     renderRow={(rowData) => 
                     <Text style={styles.rowViewContainer} 
                     onPress={this.openDetails.bind(this, rowData.id_recette)}> {rowData.nom_recette} </Text>,
+                    <Text style={styles.rowViewContainer} 
+                    onPress={this.goToModifRecette.bind(this, rowData.id_recette)}> Modifier cette recette </Text>
                     <Text style={styles.rowViewContainer} 
                     onPress={this.deleteRecette.bind(this, rowData.id_recette)}> Supprimer cette recette </Text>
                     }

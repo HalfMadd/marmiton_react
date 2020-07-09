@@ -8,21 +8,50 @@ import {
     Alert,
 } from 'react-native';
 
-class Ajout_recette extends Component{
+class Update_recette extends Component{
 
     constructor(props)
     {
         super(props);
         this.state = {
+            id_recette: this.props.navigation.state.params.FlatListClickItemHolder,
             nom_recette: '', 
             description_recette: '', 
             user_id: '1'
         }
     }
 
-    insertData = () =>
+    componentDidMount() {
+        
+        fetch('127.0.0.1:80/api/details_recette.php', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            id_recette: this.props.navigation.state.params.FlatListClickItemHolder
+        })
+       
+        })
+        .then((response) => response.json())
+            .then((responseJson) => {
+                this.setState({
+                    nom_recette : responseJson[0].nom_recette,
+                    description_recette : responseJson[0].description_recette,
+                    user_id : responseJson[0].user_id,
+                })
+              
+            }).catch((error) => {
+                console.error(error);
+            });
+
+    }
+        
+
+    updateData = () =>
     {
-        fetch('127.0.0.1:80/api/insert_recette.php',
+        fetch('127.0.0.1:80/api/update_recette.php',
         {
             method: 'POST',
             headers: 
@@ -32,12 +61,14 @@ class Ajout_recette extends Component{
             },
             body: JSON.stringify(
             {
+                id_recette: this.state.id_recette,
                 nom_recette: this.state.nom_recette,
                 description_recette: this.state.description_recette,
                 user_id: this.state.user_id
             })
 
-        }).then((response) => response.json()).then((responseJson) =>{
+        })
+        .then((response) => response.json()).then((responseJson) =>{
             if(responseJson === 'Success'){
                 this.props.navigation.navigate('Home');
             }else{
@@ -55,13 +86,13 @@ class Ajout_recette extends Component{
 
         return(
             <View style = { styles.container }>
-                <TextInput placeholder = "Nom de votre recette" style = { styles.textInput } onChangeText = {(text) => this.setState({ nom_recette: text })}/>
-                <TextInput placeholder = "Description" style = { styles.textInput } onChangeText = {(text) => this.setState({ description_recette: text })}/>
+                <TextInput defaultValue = { this.state.nom_recette } placeholder = "Nom de votre recette" style = { styles.textInput } 
+                onChangeText = {(text) => this.setState({ nom_recette: text })}/>
+                <TextInput defaultValue = { this.state.nom_recette } placeholder = "Description" style = { styles.textInput } 
+                onChangeText = {(text) => this.setState({ description_recette: text })}/>
 
-                {/* <TextInput style = { styles.textInputHidden } /> */}
-
-                <TouchableOpacity activeOpacity = { 0.8 } style = { styles.Btn } onPress = { this.insertData }>
-                    <Text style = { styles.btnText }>Insert</Text>
+                <TouchableOpacity activeOpacity = { 0.8 } style = { styles.Btn } onPress = { this.updateData }>
+                    <Text style = { styles.btnText }>Modifier</Text>
                 </TouchableOpacity>
                 
             </View>
@@ -89,10 +120,6 @@ const styles = StyleSheet.create({
         fontSize: 16
     },
 
-    textInputHidden:{
-        display: "none"
-    },
-
     Btn:{
         backgroundColor: 'rgba(0,0,0,0.6)',
         alignSelf: 'stretch',
@@ -108,4 +135,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Ajout_recette;
+export default Update_recette;

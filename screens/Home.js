@@ -19,7 +19,7 @@ class Home extends Component{
 
     componentDidMount() {
      
-        return fetch('127.0.0.1:8000/api/liste_recettes.php')
+        return fetch('127.0.0.1:80/api/liste_recettes.php')
             .then((response) => response.json())
             .then((responseJson) => {
                 let ds = new FlatList.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});

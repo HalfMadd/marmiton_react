@@ -24,5 +24,3 @@ const rootReducer = (state = {
 export default combineReducers({
     token: rootReducer
 });
-
-export default rootReducer;

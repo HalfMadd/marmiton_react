@@ -10,10 +10,6 @@ import {
 
 } from 'react-native';
 
-// import {connect} from 'react-redux';
-import { TextInput } from 'react-native-gesture-handler';
-
-
 class Details extends Component{
 
     constructor(props) {
@@ -24,6 +20,7 @@ class Details extends Component{
             nom_recette: '',
             description_recette: '',
             user_id: '',
+            pseudo: '',
 
             commentSource: [],
             texte_commentaire: ''
@@ -31,7 +28,7 @@ class Details extends Component{
     }
 
     componentDidMount() {
-        fetch('127.0.0.1:8000/api/details_recette.php', {
+        fetch('127.0.0.1:80/api/details_recette.php', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -50,20 +47,21 @@ class Details extends Component{
                     nom_recette : responseJson[0].nom_recette,
                     description_recette : responseJson[0].description_recette,
                     user_id : responseJson[0].user_id,
+                    pseudo : $responseJson[0].pseudo,
                 })
               
             }).catch((error) => {
                 console.error(error);
             });
         
-        fetch('127.0.0.1:8000/api/liste_commentaires.php', {
+        fetch('127.0.0.1:80/api/liste_commentaires.php', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            id_recette: this.props.navigation.state.params.FlatListClickItemHolder
+            recette_id: this.props.navigation.state.params.FlatListClickItemHolder
         })
        
         })        
@@ -78,15 +76,15 @@ class Details extends Component{
 
 
     addComment = () => {
-        fetch('127.0.0.1:8000/api/insert_commentaire.php', {
+        fetch('127.0.0.1:80/api/insert_commentaire.php', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            id_recette: this.props.navigation.state.params.FlatListClickItemHolder,
-            id_user: '1'
+            recette_id: this.props.navigation.state.params.FlatListClickItemHolder,
+            user_id: '1'
         })
         
         }).then((response) => response.json()).then((responseJson) => {
@@ -97,7 +95,7 @@ class Details extends Component{
     }
 
     deleteRecette = () => {
-        fetch('127.0.0.1:8000/api/delete_recette.php', {
+        fetch('127.0.0.1:80/api/delete_recette.php', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -122,7 +120,7 @@ class Details extends Component{
     }
 
     deleteComment(id_commentaire){
-        fetch('127.0.0.1:8000/api/delete_comment.php', {
+        fetch('127.0.0.1:80/api/delete_comment.php', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -143,6 +141,7 @@ class Details extends Component{
                 }).catch((error) => {
                     console.error(error);
                 });
+
     }
 
 
@@ -163,7 +162,7 @@ class Details extends Component{
 
                     <Text style={styles.textViewContainer} > {'Description = ' + this.state.description_recette} </Text>
 
-                    <Text style={styles.textViewContainer} > {'Fait par = ' + this.state.user_id} </Text>
+                    <Text style={styles.textViewContainer} > {'Fait par = ' + this.state.pseudo} </Text>
 
                     <TextInput placeholder = "Ajouter un commentaire" style = { styles.textInput } 
                     onChangeText = {(text) => this.setState({ texte_commentaire: text })} />
@@ -182,7 +181,6 @@ class Details extends Component{
                         <Text style = { styles.btnText }>Supprimer ce commentaire</Text>
                     </TouchableOpacity>
                     }
-
                     />
 
                 </View>

@@ -17,13 +17,12 @@ class Inscription extends Component{
         this.state = {
             pseudo: '', 
             role_id: '1', 
-            disabled: false 
         }
     }
 
     insertData = () =>
     {
-        fetch('127.0.0.1:8000/api/inscription.php',
+        fetch('127.0.0.1:80/api/inscription.php',
         {
             method: 'POST',
             headers: 

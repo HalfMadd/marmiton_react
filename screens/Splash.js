@@ -4,7 +4,7 @@ import {
     View,
     Animated,
 } from 'react-native';
-import logo from './../assets/Signature.png';
+import logo from './../assets/logo.png';
 
 class Splash extends Component{
 
@@ -20,7 +20,8 @@ class Splash extends Component{
         Animated.timing(fadeIn, {
             toValue: 1,
             duration: 2000,
-        }).start(() => this.props.navigation.navigate('Login'));
+        })
+        .start(() => this.props.navigation.navigate('Login'));
     };
 
     componentDidMount() {
@@ -31,7 +32,6 @@ class Splash extends Component{
     render() {
 
         let {fadeIn} = this.state;
-
         let {navigation} = this.props;
 
         return (

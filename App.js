@@ -11,7 +11,7 @@ import { persistStore, persistReducer } from 'redux-persist';
 import { PersistGate } from "redux-persist/integration/react";
 import storage from "redux-persist/lib/storage"; 
 
-import rootReducer from './helpers/rootReducer';
+import combineReducers from './helpers/combineReducers';
 
 import Splash from "./screens/Splash";
 import Home from "./screens/Home";
@@ -23,13 +23,13 @@ import Mes_recettes from "./screens/Mes_recettes";
 import Ajout_recette from "./screens/Ajout_recette";
 
 const persistConfig = {
-    key: 'root',
+    key: 'combine',
     storage
 }
 
-const persistedReducer = persistReducer( persistConfig , rootReducer);
+const persistedReducer = persistReducer( persistConfig , combineReducers);
 
-const store = createStore(rootReducer);
+const store = createStore(combineReducers);
 const persistor = persistStore(store);
 
 

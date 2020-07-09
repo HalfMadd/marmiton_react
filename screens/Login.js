@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import { 
-    TextInput, 
     Alert,
     View,
     Text,
@@ -22,7 +21,7 @@ class Login extends Component{
  
         const { pseudo }  = this.state ;
 
-        fetch('127.0.0.1:8000/api/login.php', {
+        fetch('127.0.0.1:80/api/login.php', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -32,7 +31,8 @@ class Login extends Component{
                 pseudo: pseudo,
             })
         
-        }).then((response) => response.json())
+        })
+        .then((response) => response.json())
             .then((responseJson) => {
                 if(responseJson === 'Connexion en cours'){
                     this.props.navigation.navigate('Home', { pseudo: pseudo });
@@ -47,9 +47,6 @@ class Login extends Component{
     goToInscription = () => {
         this.props.navigation.navigate('Inscription');
     }
-
-
-
     render() {
 
         let {navigation} = this.props;
