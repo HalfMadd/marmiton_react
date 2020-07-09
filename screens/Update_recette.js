@@ -41,6 +41,7 @@ class Update_recette extends Component{
                     description_recette : responseJson[0].description_recette,
                     user_id : responseJson[0].user_id,
                 })
+                
               
             }).catch((error) => {
                 console.error(error);
@@ -70,7 +71,7 @@ class Update_recette extends Component{
         })
         .then((response) => response.json()).then((responseJson) =>{
             if(responseJson === 'Success'){
-                this.props.navigation.navigate('Home');
+                this.props.navigation.navigate('Mes_recettes');
             }else{
                 Alert.alert(responseJson);
             }
