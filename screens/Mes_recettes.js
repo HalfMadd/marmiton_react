@@ -88,7 +88,7 @@ class Mes_recettes extends Component{
                     <Text style={styles.rowViewContainer} 
                     onPress={this.openDetails.bind(this, rowData.id_recette)}> {rowData.nom_recette} </Text>,
                     <Text style={styles.rowViewContainer} 
-                    onPress={this.goToModifRecette.bind(this, rowData.id_recette)}> Modifier cette recette </Text>
+                    onPress={this.goToModifRecette.bind(this, rowData.id_recette)}> Modifier cette recette </Text>,
                     <Text style={styles.rowViewContainer} 
                     onPress={this.deleteRecette.bind(this, rowData.id_recette)}> Supprimer cette recette </Text>
                     }
